@@ -18,8 +18,39 @@ document.getElementById('gallery-next').addEventListener('click',()=>showCase(ac
 dialog.addEventListener('keydown',event=>{if(event.key==='ArrowLeft'){event.preventDefault();showCase(activeCase-1);}if(event.key==='ArrowRight'){event.preventDefault();showCase(activeCase+1);}});
 dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}});
 dialog.addEventListener('close',()=>document.body.classList.remove('modal-open'));
-const heroVideo=document.getElementById('hero-video');
-if(heroVideo){const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');const syncVideoMotion=()=>{if(motionPreference.matches){heroVideo.autoplay=false;heroVideo.pause();}};syncVideoMotion();motionPreference.addEventListener('change',syncVideoMotion);}
+const heroVideo = document.getElementById('hero-video');
+if (heroVideo) {
+ const frame = heroVideo.closest('.hero-photo');
+ const fallback = document.querySelector('.hero-video-fallback');
+ const motion = matchMedia('(prefers-reduced-motion: reduce)');
+ let pending = false;
+ heroVideo.muted = true;
+ heroVideo.defaultMuted = true;
+ heroVideo.playsInline = true;
+ heroVideo.controls = false;
+ const showFallback = () => { frame.classList.remove('is-playing'); fallback.hidden = false; };
+ const tryPlay = (userInitiated = false) => {
+  if (document.hidden || (motion.matches && !userInitiated) || pending || !heroVideo.paused) return;
+  heroVideo.muted = true;
+  pending = true;
+  const result = heroVideo.play();
+  if (result) result.catch(() => {showFallback();frame.classList.add('needs-tap');}).finally(() => {pending = false;});
+  else pending = false;
+ };
+ heroVideo.addEventListener('playing', () => {frame.classList.add('is-playing');frame.classList.remove('needs-tap');fallback.hidden = true;});
+ heroVideo.addEventListener('pause', showFallback);
+ heroVideo.addEventListener('error', showFallback);
+ heroVideo.addEventListener('canplay', () => tryPlay());
+
+ document.addEventListener('touchend', () => tryPlay(), {passive:true});
+ document.addEventListener('pointerup', () => tryPlay(), {passive:true});
+ document.addEventListener('visibilitychange', () => {if(!document.hidden)tryPlay();});
+ window.addEventListener('pageshow', () => tryPlay());
+ if ('IntersectionObserver' in window) new IntersectionObserver(entries => {if(entries[0].isIntersecting)tryPlay();},{threshold:0.1}).observe(frame);
+ motion.addEventListener('change', () => {if(motion.matches){heroVideo.pause();showFallback();}else tryPlay();});
+ if (motion.matches) {heroVideo.autoplay = false;heroVideo.pause();}
+ tryPlay();
+}
 
 const galleryToggle = document.querySelector('.gallery-toggle');
 const galleryGrid = document.getElementById('brow-gallery');
