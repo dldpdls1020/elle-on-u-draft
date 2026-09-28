@@ -20,3 +20,15 @@ dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog
 dialog.addEventListener('close',()=>document.body.classList.remove('modal-open'));
 const heroVideo=document.getElementById('hero-video');
 if(heroVideo){const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');const syncVideoMotion=()=>{if(motionPreference.matches){heroVideo.autoplay=false;heroVideo.pause();}};syncVideoMotion();motionPreference.addEventListener('change',syncVideoMotion);}
+
+const galleryToggle = document.querySelector('.gallery-toggle');
+const galleryGrid = document.getElementById('brow-gallery');
+if (galleryToggle && galleryGrid) {
+ galleryToggle.addEventListener('click', () => {
+  const expanded = galleryToggle.getAttribute('aria-expanded') !== 'true';
+  galleryGrid.classList.toggle('is-expanded', expanded);
+  galleryToggle.setAttribute('aria-expanded', String(expanded));
+  galleryToggle.innerHTML = expanded ? '시술 사진 접기 <span aria-hidden="true">−</span>' : '시술 사진 더 보기 · 8장 <span aria-hidden="true">＋</span>';
+  if (!expanded) galleryToggle.scrollIntoView({block:'center',behavior:'instant'});
+ });
+}
