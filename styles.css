@@ -33,3 +33,7 @@
 
 /* Preserve the full director portrait and the name printed in it. */
 .director-photo img{display:block;width:100%;height:auto;object-fit:contain;object-position:center;aspect-ratio:1086/1448}
+
+/* Brow gallery: preserve the full comparison images. */
+.results-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px 22px}.results-grid .case-open{width:100%;background:#dedad2;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center}.results-grid .case-open img{width:100%;height:100%;object-fit:contain}.results-grid figcaption h3{font-size:16px}.gallery-controls{display:flex;gap:18px;justify-content:center;align-items:center;margin:12px auto;color:#fff}.gallery-controls button{background:#fff;color:#111;border:0;padding:10px 18px;cursor:pointer}.gallery-controls button:focus-visible{outline:3px solid #ff6200}.gallery-controls span{font-size:14px}
+@media(max-width:700px){.results-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 12px}.results-grid figcaption{gap:6px;flex-wrap:wrap}.results-grid figcaption h3{font-size:13px}.results-grid figcaption>span:last-child{display:none}.results-grid .zoom{font-size:18px}}
