@@ -59,7 +59,7 @@ if (galleryToggle && galleryGrid) {
   const expanded = galleryToggle.getAttribute('aria-expanded') !== 'true';
   galleryGrid.classList.toggle('is-expanded', expanded);
   galleryToggle.setAttribute('aria-expanded', String(expanded));
-  galleryToggle.innerHTML = expanded ? '시술 사진 접기 <span aria-hidden="true">−</span>' : '시술 사진 더 보기 · 8장 <span aria-hidden="true">＋</span>';
+  galleryToggle.innerHTML = expanded ? '시술 사진 접기 <span aria-hidden="true">−</span>' : `시술 사진 더 보기 · ${Math.max(0, cases.length - 4)}장 <span aria-hidden="true">＋</span>`;
   if (!expanded) galleryToggle.scrollIntoView({block:'center',behavior:'instant'});
  });
 }
