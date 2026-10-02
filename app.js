@@ -63,3 +63,20 @@ if (galleryToggle && galleryGrid) {
   if (!expanded) galleryToggle.scrollIntoView({block:'center',behavior:'instant'});
  });
 }
+
+// Reveal once on entry; keep all content visible if observers are unavailable.
+const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
+const revealTargets = document.querySelectorAll('.section-heading, .signature-layout, .director-copy, .process-grid, .price-heading, .featured-price, .closing h2');
+const bookingTargets = document.querySelectorAll('.hero-actions a[href*="/booking"], .featured-amount a[href*="/booking"], .closing-actions a[href*="/booking"], .sticky-book');
+bookingTargets.forEach(element => element.classList.add('booking-accent'));
+if ('IntersectionObserver' in window) {
+ const motionObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+   if (!entry.isIntersecting) return;
+   if (!motionPreference.matches) entry.target.classList.add(entry.target.classList.contains('booking-accent') ? 'booking-arrived' : 'is-revealed');
+   motionObserver.unobserve(entry.target);
+  });
+ }, {threshold:0.15});
+ revealTargets.forEach(element => {element.classList.add('motion-reveal');motionObserver.observe(element);});
+ bookingTargets.forEach(element => motionObserver.observe(element));
+}

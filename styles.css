@@ -53,3 +53,13 @@
  .hero-grid{width:100%;margin-left:0;margin-right:0}
  .hero-photo:has(video){width:100%;border:0;aspect-ratio:4/5}
 }
+
+/* Warm editorial motion: a short reveal and a two-beat booking invitation. */
+@keyframes elle-reveal{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes elle-bounce{0%,45%,100%{transform:translateY(0)}12%{transform:translateY(-7px)}24%{transform:translateY(0)}33%{transform:translateY(-3px)}}
+.motion-reveal.is-revealed{animation:elle-reveal .7s cubic-bezier(.22,.7,.3,1) both}
+.booking-accent{box-shadow:0 0 0 1px #ff914a,0 5px 18px #ff620033;transition:box-shadow .25s,background .25s,transform .25s}
+.booking-accent.booking-arrived{animation:elle-bounce 1.8s ease-out 2}
+.booking-accent:hover,.booking-accent:focus-visible{animation:none;transform:translateY(-3px);box-shadow:0 0 0 2px #ff914a,0 8px 25px #ff620055}
+.booking-accent:active{transform:translateY(0)}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.motion-reveal.is-revealed,.booking-accent.booking-arrived{animation:none}.booking-accent,.button{transition:none}.booking-accent:hover,.booking-accent:focus-visible{transform:none}}
