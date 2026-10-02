@@ -64,7 +64,7 @@ if (galleryToggle && galleryGrid) {
  });
 }
 
-// Reveal once on entry; keep all content visible if observers are unavailable.
+// Replay entry motion whenever a section returns to the viewport.
 const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
 const revealTargets = document.querySelectorAll('.section-heading, .signature-layout, .director-copy, .process-grid, .price-heading, .featured-price, .closing h2');
 const bookingTargets = document.querySelectorAll('.hero-actions a[href*="/booking"], .featured-amount a[href*="/booking"], .closing-actions a[href*="/booking"], .sticky-book');
@@ -72,11 +72,20 @@ bookingTargets.forEach(element => element.classList.add('booking-accent'));
 if ('IntersectionObserver' in window) {
  const motionObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
-   if (!entry.isIntersecting) return;
-   if (!motionPreference.matches) entry.target.classList.add(entry.target.classList.contains('booking-accent') ? 'booking-arrived' : 'is-revealed');
-   motionObserver.unobserve(entry.target);
+   const className = entry.target.classList.contains('booking-accent') ? 'booking-arrived' : 'is-revealed';
+   entry.target.classList.toggle(className, entry.isIntersecting && !motionPreference.matches);
   });
- }, {threshold:0.15});
+ }, {threshold:0.12});
  revealTargets.forEach(element => {element.classList.add('motion-reveal');motionObserver.observe(element);});
  bookingTargets.forEach(element => motionObserver.observe(element));
+ motionPreference.addEventListener('change', () => {
+  if(motionPreference.matches) document.querySelectorAll('.is-revealed,.booking-arrived').forEach(element=>element.classList.remove('is-revealed','booking-arrived'));
+ });
 }
+
+const motionControl = document.querySelector('.motion-controls');
+motionControl.addEventListener('click', () => {
+ const paused = document.body.classList.toggle('motion-paused');
+ motionControl.setAttribute('aria-pressed', String(paused));
+ motionControl.textContent = paused ? '버튼 움직임 켜기' : '버튼 움직임 끄기';
+});

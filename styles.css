@@ -63,3 +63,14 @@
 .booking-accent:hover,.booking-accent:focus-visible{animation:none;transform:translateY(-3px);box-shadow:0 0 0 2px #ff914a,0 8px 25px #ff620055}
 .booking-accent:active{transform:translateY(0)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.motion-reveal.is-revealed,.booking-accent.booking-arrived{animation:none}.booking-accent,.button{transition:none}.booking-accent:hover,.booking-accent:focus-visible{transform:none}}
+
+/* Stronger, repeatable movement with a resting interval for booking buttons. */
+@keyframes elle-reveal{0%{opacity:0;transform:translateY(64px) scale(.95)}70%{opacity:1;transform:translateY(-5px) scale(1.01)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes elle-bounce{0%,38%,100%{transform:translateY(0) scale(1)}10%{transform:translateY(-12px) scale(1.025)}19%{transform:translateY(0) scale(.98)}27%{transform:translateY(-6px) scale(1.015)}}
+.motion-reveal.is-revealed{animation-duration:.95s}
+.booking-accent.booking-arrived{animation:elle-bounce 3.6s ease-in-out infinite}
+.booking-accent:hover,.booking-accent:focus-visible{animation-play-state:paused}
+.motion-controls{position:fixed;right:12px;bottom:104px;z-index:90;border:1px solid #ff914a;border-radius:20px;padding:6px 10px;background:#101010;color:#fff;font-size:11px;cursor:pointer}
+.motion-paused .booking-accent.booking-arrived{animation:none}
+@media(max-width:700px){.motion-controls{bottom:96px}}
+@media(prefers-reduced-motion:reduce){.motion-reveal.is-revealed,.booking-accent.booking-arrived{animation:none}.motion-controls{display:none}}
