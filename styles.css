@@ -45,3 +45,11 @@
 .hero-video-fallback{position:absolute;inset:0;z-index:2;width:100%;height:100%;padding:0;border:0;background:#101010;cursor:pointer}.hero-video-fallback[hidden]{display:none}.hero-video-fallback img{width:100%;height:100%;object-fit:cover;object-position:center top}.hero-video-fallback span{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);padding:7px 14px;border-radius:20px;background:#000b;color:#fff;font-size:12px;white-space:nowrap;opacity:0}.needs-tap .hero-video-fallback span{opacity:1}.hero-photo video::-webkit-media-controls-start-playback-button{display:none!important}.hero-photo.is-playing video{pointer-events:none}
 
 .hero-video-fallback{display:block;cursor:default;pointer-events:none}.hero-photo video{opacity:0}.hero-photo.is-playing video{opacity:1}.hero-video-fallback[hidden]{display:none}
+
+/* Edge-to-edge mobile hero; keep the brand and booking copy comfortably inset. */
+@media(max-width:700px){
+ .hero{padding-inline:0}
+ .hero-topline,.hero-editorial,.hero-brand{margin-left:6%;margin-right:6%}
+ .hero-grid{width:100%;margin-left:0;margin-right:0}
+ .hero-photo:has(video){width:100%;border:0;aspect-ratio:4/5}
+}
