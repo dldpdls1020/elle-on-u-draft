@@ -89,3 +89,34 @@ motionControl.addEventListener('click', () => {
  motionControl.setAttribute('aria-pressed', String(paused));
  motionControl.textContent = paused ? '버튼 움직임 켜기' : '버튼 움직임 끄기';
 });
+
+const consultationVideo = document.getElementById('consultation-video');
+if (consultationVideo) {
+ const frame=consultationVideo.closest('.consultation-film');
+ const fallback=frame.querySelector('.consultation-fallback');
+ const fallbackImage=fallback.querySelector('img');
+ const toggle=frame.querySelector('.consultation-toggle');
+ const preference=matchMedia('(prefers-reduced-motion: reduce)');
+ let userPaused=false, inView=false, userStarted=false;
+ const poster=consultationVideo.poster;
+ const animated=fallbackImage.getAttribute('src');
+ const fallbackState=()=>{frame.classList.remove('is-playing');fallback.hidden=false;fallbackImage.src=userPaused||preference.matches?poster:animated;};
+ const sync=()=>{
+  const stopped=userPaused||(preference.matches&&!userStarted);
+  toggle.textContent=stopped?'재생 ▶':'일시정지 Ⅱ';
+  toggle.setAttribute('aria-label',stopped?'상담 영상 재생':'상담 영상 일시정지');
+  if(stopped||!inView||document.hidden){consultationVideo.pause();fallbackState();return;}
+  consultationVideo.muted=true;
+  consultationVideo.play().catch(fallbackState);
+ };
+ consultationVideo.addEventListener('playing',()=>{fallback.hidden=true;frame.classList.add('is-playing');});
+ consultationVideo.addEventListener('error',fallbackState);
+ consultationVideo.addEventListener('pause',fallbackState);
+ toggle.addEventListener('click',()=>{if(preference.matches&&!userStarted){userStarted=true;userPaused=false;}else userPaused=!userPaused;sync();});
+ if('IntersectionObserver' in window)new IntersectionObserver(entries=>{inView=entries[0].isIntersecting;sync();},{threshold:.1}).observe(frame);
+ else{inView=true;sync();}
+ document.addEventListener('visibilitychange',sync);
+ document.addEventListener('touchend',()=>{if(!userPaused)sync();},{passive:true});
+ preference.addEventListener('change',sync);
+ sync();
+}

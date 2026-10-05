@@ -74,3 +74,9 @@
 .motion-paused .booking-accent.booking-arrived{animation:none}
 @media(max-width:700px){.motion-controls{bottom:96px}}
 @media(prefers-reduced-motion:reduce){.motion-reveal.is-revealed,.booking-accent.booking-arrived{animation:none}.motion-controls{display:none}}
+
+.consultation-film{position:relative;aspect-ratio:3/4;overflow:hidden;background:#101010}
+.consultation-film video,.consultation-fallback,.signature-picture .consultation-fallback img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.consultation-film video{opacity:0}.consultation-film.is-playing video{opacity:1}
+.consultation-fallback[hidden]{display:none}
+.consultation-toggle{position:absolute;right:12px;bottom:12px;z-index:3;background:#101010c9;color:#fff;border:1px solid #ffffff77;border-radius:20px;padding:7px 12px;font-size:12px;cursor:pointer}
