@@ -66,7 +66,7 @@ if (galleryToggle && galleryGrid) {
 
 // Replay entry motion whenever a section returns to the viewport.
 const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
-const revealTargets = document.querySelectorAll('.section-heading, .signature-layout, .director-copy, .process-grid, .price-heading, .featured-price, .closing h2');
+const revealTargets = document.querySelectorAll('.story-inner > h2, .story-question, .story-cards, .section-heading, .signature-layout, .director-copy, .process-grid, .price-heading, .featured-price, .closing h2');
 const bookingTargets = document.querySelectorAll('.hero-actions a[href*="/booking"], .featured-amount a[href*="/booking"], .closing-actions a[href*="/booking"], .sticky-book');
 bookingTargets.forEach(element => element.classList.add('booking-accent'));
 if ('IntersectionObserver' in window) {
