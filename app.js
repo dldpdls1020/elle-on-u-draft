@@ -18,10 +18,10 @@ document.getElementById('gallery-next').addEventListener('click',()=>showCase(ac
 dialog.addEventListener('keydown',event=>{if(event.key==='ArrowLeft'){event.preventDefault();showCase(activeCase-1);}if(event.key==='ArrowRight'){event.preventDefault();showCase(activeCase+1);}});
 dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}});
 dialog.addEventListener('close',()=>document.body.classList.remove('modal-open'));
-const heroVideo = document.getElementById('hero-video');
+const heroVideo = document.getElementById('director-video');
 if (heroVideo) {
- const frame = heroVideo.closest('.hero-photo');
- const fallback = document.querySelector('.hero-video-fallback');
+ const frame = heroVideo.closest('.director-media');
+ const fallback = document.querySelector('.director-video-fallback');
  const motion = matchMedia('(prefers-reduced-motion: reduce)');
  let pending = false;
  heroVideo.muted = true;
@@ -118,5 +118,32 @@ if (consultationVideo) {
  document.addEventListener('visibilitychange',sync);
  document.addEventListener('touchend',()=>{if(!userPaused)sync();},{passive:true});
  preference.addEventListener('change',sync);
+ sync();
+}
+
+// Keep the first photo visible until every slide is decoded; dissolve every 3 seconds.
+const slideshow = document.querySelector('.hero-slideshow');
+if (slideshow) {
+ const slides = [...slideshow.querySelectorAll('.hero-slide')];
+ const toggle = slideshow.querySelector('.slideshow-toggle');
+ const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+ let index = 0, timer, ready = false, paused = reduced.matches;
+ const sync = () => {
+  clearInterval(timer);
+  toggle.textContent = paused ? '사진 재생 ▶' : '사진 멈추기 Ⅱ';
+  toggle.setAttribute('aria-pressed', String(paused));
+  if (!ready || paused || document.hidden) return;
+  timer = setInterval(() => {
+   const next = (index + 1) % slides.length;
+   if (!slides[next].complete || !slides[next].naturalWidth) return;
+   slides[index].classList.remove('is-active');
+   slides[next].classList.add('is-active');
+   index = next;
+  }, 3000);
+ };
+ toggle.addEventListener('click', () => {paused = !paused; sync();});
+ reduced.addEventListener('change', () => {paused = reduced.matches; sync();});
+ document.addEventListener('visibilitychange', sync);
+ Promise.allSettled(slides.map(img => img.decode())).then(() => {ready = true; sync();});
  sync();
 }
