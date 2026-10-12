@@ -92,7 +92,7 @@
 .slideshow-toggle{position:absolute;right:14px;bottom:14px;z-index:4;border:1px solid #ffffff88;border-radius:24px;padding:9px 14px;background:#101010bb;color:#fff;cursor:pointer;font-size:12px}
 .director.director-film{position:relative;isolation:isolate;display:flex;align-items:flex-end;min-height:950px;padding:420px 7% 80px;overflow:hidden;background:#161616}
 .director-media{position:absolute;inset:0;z-index:-2}
-.director-media video,.director-video-fallback,.director-video-fallback img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 28%;filter:grayscale(1)}
+.director-media video,.director-video-fallback,.director-video-fallback img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 28%;filter:none}
 .director-media video{opacity:0}.director-media.is-playing video{opacity:1}.director-video-fallback[hidden]{display:none}
 .director-film:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,#10101000 10%,#10101040 35%,#101010df 65%,#101010 100%)}
 .director-film .director-copy{max-width:880px;color:#f5f3ed}
