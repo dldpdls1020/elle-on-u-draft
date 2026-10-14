@@ -102,3 +102,5 @@
 @media(max-width:700px){.director.director-film{padding:390px 6% 56px;min-height:900px}.director-film .body-copy{font-size:15px;line-height:1.9}.director-film .director-copy h2{font-size:32px}.director-media video,.director-video-fallback img{object-position:50% top}.hero-slideshow>img.hero-slide{object-position:50% 60%}}
 @media(prefers-reduced-motion:reduce){.hero-slideshow>img.hero-slide{transition:none}}
 @media(max-width:700px){.director-film .director-media{height:610px}.director-film:after{background:linear-gradient(180deg,#10101000 160px,#10101055 340px,#101010ee 570px,#101010 650px)}.hero-slideshow .slideshow-toggle{top:14px;bottom:auto}}
+
+.featured-amount>p{text-align:center}
