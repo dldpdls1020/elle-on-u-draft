@@ -83,28 +83,19 @@ if ('IntersectionObserver' in window) {
  });
 }
 
-const motionControl = document.querySelector('.motion-controls');
-motionControl.addEventListener('click', () => {
- const paused = document.body.classList.toggle('motion-paused');
- motionControl.setAttribute('aria-pressed', String(paused));
- motionControl.textContent = paused ? '버튼 움직임 켜기' : '버튼 움직임 끄기';
-});
 
 const consultationVideo = document.getElementById('consultation-video');
 if (consultationVideo) {
  const frame=consultationVideo.closest('.consultation-film');
  const fallback=frame.querySelector('.consultation-fallback');
  const fallbackImage=fallback.querySelector('img');
- const toggle=frame.querySelector('.consultation-toggle');
  const preference=matchMedia('(prefers-reduced-motion: reduce)');
- let userPaused=false, inView=false, userStarted=false;
+ let inView=false;
  const poster=consultationVideo.poster;
  const animated=fallbackImage.getAttribute('src');
- const fallbackState=()=>{frame.classList.remove('is-playing');fallback.hidden=false;fallbackImage.src=userPaused||preference.matches?poster:animated;};
+ const fallbackState=()=>{frame.classList.remove('is-playing');fallback.hidden=false;fallbackImage.src=preference.matches?poster:animated;};
  const sync=()=>{
-  const stopped=userPaused||(preference.matches&&!userStarted);
-  toggle.textContent=stopped?'재생 ▶':'일시정지 Ⅱ';
-  toggle.setAttribute('aria-label',stopped?'상담 영상 재생':'상담 영상 일시정지');
+  const stopped=preference.matches;
   if(stopped||!inView||document.hidden){consultationVideo.pause();fallbackState();return;}
   consultationVideo.muted=true;
   consultationVideo.play().catch(fallbackState);
@@ -112,11 +103,10 @@ if (consultationVideo) {
  consultationVideo.addEventListener('playing',()=>{fallback.hidden=true;frame.classList.add('is-playing');});
  consultationVideo.addEventListener('error',fallbackState);
  consultationVideo.addEventListener('pause',fallbackState);
- toggle.addEventListener('click',()=>{if(preference.matches&&!userStarted){userStarted=true;userPaused=false;}else userPaused=!userPaused;sync();});
  if('IntersectionObserver' in window)new IntersectionObserver(entries=>{inView=entries[0].isIntersecting;sync();},{threshold:.1}).observe(frame);
  else{inView=true;sync();}
  document.addEventListener('visibilitychange',sync);
- document.addEventListener('touchend',()=>{if(!userPaused)sync();},{passive:true});
+ document.addEventListener('touchend',()=>{sync();},{passive:true});
  preference.addEventListener('change',sync);
  sync();
 }
@@ -125,13 +115,10 @@ if (consultationVideo) {
 const slideshow = document.querySelector('.hero-slideshow');
 if (slideshow) {
  const slides = [...slideshow.querySelectorAll('.hero-slide')];
- const toggle = slideshow.querySelector('.slideshow-toggle');
  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
  let index = 0, timer, ready = false, paused = reduced.matches;
  const sync = () => {
   clearInterval(timer);
-  toggle.textContent = paused ? '사진 재생 ▶' : '사진 멈추기 Ⅱ';
-  toggle.setAttribute('aria-pressed', String(paused));
   if (!ready || paused || document.hidden) return;
   timer = setInterval(() => {
    const next = (index + 1) % slides.length;
@@ -141,7 +128,6 @@ if (slideshow) {
    index = next;
   }, 3000);
  };
- toggle.addEventListener('click', () => {paused = !paused; sync();});
  reduced.addEventListener('change', () => {paused = reduced.matches; sync();});
  document.addEventListener('visibilitychange', sync);
  Promise.allSettled(slides.map(img => img.decode())).then(() => {ready = true; sync();});
