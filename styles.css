@@ -107,3 +107,7 @@
 
 /* Selected Noto Serif KR sample: editorial headings and readable body copy. */
 h1,h2,h3{font-weight:500} .hero h1,.featured-title h3,.story-cards h3,.story-question h3{font-weight:500}
+
+/* Separate the hero offer from the consultation introduction. */
+.hero-copy .hero-offer{margin-top:42px}
+@media(max-width:700px){.hero-copy .hero-offer{margin-top:40px}}
