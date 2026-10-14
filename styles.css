@@ -111,3 +111,6 @@ h1,h2,h3{font-weight:500} .hero h1,.featured-title h3,.story-cards h3,.story-que
 /* Separate the hero offer from the consultation introduction. */
 .hero-copy .hero-offer{margin-top:42px}
 @media(max-width:700px){.hero-copy .hero-offer{margin-top:40px}}
+
+#before-you-decide .intro-three-lines{font-size:clamp(18px,4.6vw,48px);letter-spacing:-.045em;line-height:1.65}
+.intro-three-lines>span{display:block;white-space:nowrap}
