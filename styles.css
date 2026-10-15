@@ -122,3 +122,5 @@ h1,h2,h3{font-weight:500} .hero h1,.featured-title h3,.story-cards h3,.story-que
 .hero-slideshow>img.hero-slide:nth-of-type(1){transform:scale(1.20);transform-origin:48% 100%}
 .hero-slideshow>img.hero-slide:nth-of-type(3){transform:scale(1.18);transform-origin:0% 100%}
 .hero-slideshow>img.hero-slide:nth-of-type(4){transform:scale(1.16);transform-origin:0% 100%}
+
+.hero-photo.hero-slideshow{overflow:hidden}
